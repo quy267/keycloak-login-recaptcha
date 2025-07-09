@@ -18,12 +18,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-<!--     <parent>
-        <artifactId>keycloak-examples-providers-parent</artifactId>
-        <groupId>org.keycloak</groupId>
-        <version>4.5.0.Final-SNAPSHOT</version>
-    </parent> -->
-
     <name>Recaptcha Login</name>
     <description/>
     <modelVersion>4.0.0</modelVersion>
@@ -34,10 +28,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>1.8</java.version>
-        <version.keycloak>18.0.0</version.keycloak>
-<!--        <version.jboss>3.3.0.Final</version.jboss>-->
-<!--        <version.jboss-ejb-api>1.0.0.Final</version.jboss-ejb-api>-->
+        <java.version>17</java.version>
+        <version.keycloak>26.2.5</version.keycloak>
         <jboss.logging.version>3.4.1.Final</jboss.logging.version>
     </properties>
 
@@ -46,7 +38,7 @@
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-core</artifactId>
             <version>${version.keycloak}</version>
-	        <scope>provided</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.keycloak</groupId>
@@ -61,15 +53,21 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-services</artifactId>
+            <version>${version.keycloak}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging</artifactId>
             <version>${jboss.logging.version}</version>
             <scope>provided</scope>
         </dependency>
-		<dependency>
-            <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-services</artifactId>
-            <version>${version.keycloak}</version>
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -81,15 +79,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <configuration>
-                    <skip>false</skip>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
         </plugins>
