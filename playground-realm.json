@@ -592,8 +592,8 @@
     "contentSecurityPolicyReportOnly": "",
     "xContentTypeOptions": "nosniff",
     "xRobotsTag": "none",
-    "xFrameOptions": "ALLOW-FROM https://www.google.com",
-    "contentSecurityPolicy": "frame-src 'self' https://www.google.com; frame-ancestors 'self'; object-src 'none';",
+    "xFrameOptions": "ALLOW-FROM https://www.google.com https://www.recaptcha.net",
+    "contentSecurityPolicy": "frame-src 'self' https://www.google.com https://www.recaptcha.net; frame-ancestors 'self'; object-src 'none'; script-src 'self' https://www.google.com https://www.recaptcha.net https://www.gstatic.com;",
     "xXSSProtection": "1; mode=block",
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
