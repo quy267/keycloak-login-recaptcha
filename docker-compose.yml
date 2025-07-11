@@ -35,9 +35,9 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: admin
       
       # Development mode
-      KC_HOSTNAME_STRICT: false
-      KC_HOSTNAME_STRICT_HTTPS: false
-      KC_HTTP_ENABLED: true
+      KC_HOSTNAME_STRICT: "false"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
+      KC_HTTP_ENABLED: "true"
       
       # reCAPTCHA keys (replace with your actual keys)
       RECAPTCHA_SITE_KEY: "6LcN830rAAAAAOsEP0IOfmJkLVU_gFm79jNMRyDm"  # Google test key

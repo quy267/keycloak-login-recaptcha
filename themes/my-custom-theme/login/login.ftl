@@ -1,5 +1,5 @@
 <#import "template.ftl" as layout>
-<@layout.registrationLayout displayInfo=true displayWide=(realm.password && social.providers??); section>
+<@layout.registrationLayout displayInfo=true; section>
     <#if section = "header">
         ${msg("doLogIn")}
     <#elseif section = "form">
