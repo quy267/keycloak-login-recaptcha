@@ -17,5 +17,5 @@ services:
       - 8080:8080
     volumes:
       - ./playground-realm.json:/opt/keycloak/data/import/playground-realm.json
-      - ./login.ftl:/opt/keycloak/themes/base/login/login.ftl
+      - ./login.ftl:/opt/keycloak/themes/vinpay/login/login.ftl
       - ./target/recaptcha-login.jar:/opt/keycloak/providers/recaptcha-login.jar

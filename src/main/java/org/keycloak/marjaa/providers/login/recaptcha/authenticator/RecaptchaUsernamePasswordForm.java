@@ -69,6 +69,13 @@ public class RecaptchaUsernamePasswordForm extends UsernamePasswordForm implemen
         siteKey = captchaConfig.getConfig().get(SITE_KEY);
         form.setAttribute("recaptchaRequired", true);
         form.setAttribute("recaptchaSiteKey", siteKey);
+
+        // Log reCAPTCHA initialization details
+        logger.debug("Initializing reCAPTCHA with site key: " + siteKey);
+        logger.debug("Using reCAPTCHA domain: " + getRecaptchaDomain(captchaConfig));
+
+        // Note: We're also including the reCAPTCHA JavaScript directly in the login.ftl template
+        // This is a backup in case the script added here doesn't load properly
         form.addScript("https://www." + getRecaptchaDomain(captchaConfig) + "/recaptcha/api.js?hl=" + userLanguageTag);
 
         super.authenticate(context);
@@ -80,6 +87,12 @@ public class RecaptchaUsernamePasswordForm extends UsernamePasswordForm implemen
             logger.debug("action(AuthenticationFlowContext) - start");
         }
         MultivaluedMap<String, String> formData = context.getHttpRequest().getDecodedFormParameters();
+
+        // Log all form data keys to help diagnose issues
+        if (logger.isDebugEnabled()) {
+            logger.debug("Form data keys: " + formData.keySet());
+        }
+
         List<FormMessage> errors = new ArrayList<>();
         boolean success = false;
         context.getEvent().detail(Details.AUTH_METHOD, "auth_method");
@@ -87,7 +100,9 @@ public class RecaptchaUsernamePasswordForm extends UsernamePasswordForm implemen
         String captcha = formData.getFirst(G_RECAPTCHA_RESPONSE);
         if (Validation.isBlank(captcha)) {
             // If captcha is blank, set success to false and log the issue
-            logger.warn("reCAPTCHA response is blank or missing");
+            logger.warn("reCAPTCHA response is blank or missing. This may indicate that the reCAPTCHA widget was not properly loaded or initialized.");
+            // Log form data keys to help diagnose the issue
+            logger.debug("Form data keys: " + formData.keySet());
             success = false;
         } else {
             AuthenticatorConfigModel captchaConfig = context.getAuthenticatorConfig();
@@ -217,6 +232,12 @@ public class RecaptchaUsernamePasswordForm extends UsernamePasswordForm implemen
                     // Log the response for debugging
                     if (logger.isDebugEnabled()) {
                         logger.debug("reCAPTCHA verification response: " + json);
+                    }
+
+                    // If validation failed, log the error codes
+                    if (!success && json.containsKey("error-codes")) {
+                        Object errorCodes = json.get("error-codes");
+                        logger.warn("reCAPTCHA validation failed with error codes: " + errorCodes);
                     }
                 } catch (Exception e) {
                     logger.error("Failed to parse JSON response from reCAPTCHA verification", e);
