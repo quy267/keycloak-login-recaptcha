@@ -3,7 +3,7 @@
 echo "🧪 Testing reCAPTCHA integration..."
 
 # Test if login page loads with reCAPTCHA
-response=$(curl -s http://localhost:8080/realms/test-realm/protocol/openid-connect/auth?client_id=test-app&redirect_uri=http://localhost:3000&response_type=code&scope=openid)
+response=$(curl -s "http://localhost:8080/realms/test-realm/protocol/openid-connect/auth?client_id=account&redirect_uri=http%3A//localhost%3A8080/realms/test-realm/account&response_type=code&scope=openid")
 
 if echo "$response" | grep -q "g-recaptcha"; then
     echo "✅ reCAPTCHA found on login page"
