@@ -56,13 +56,10 @@ services:
       # Configure frame-src specifically for reCAPTCHA
       KC_SPI_SECURITY_HEADERS_FRAME_SRC: "'self' https://www.google.com https://www.recaptcha.net https://www.gstatic.com"
       
-      # reCAPTCHA keys (replace with your actual keys)
-      RECAPTCHA_SITE_KEY: "6LcN830rAAAAAOsEP0IOfmJkLVU_gFm79jNMRyDm"  # Google test key
-      RECAPTCHA_SECRET_KEY: "6LcN830rAAAAANsne670VauSdaK2JLigejlkSBmX" # Google test key
-
       # Logging
       KC_LOG_LEVEL: INFO
       
+    entrypoint: ["/opt/keycloak/bin/keycloak-startup.sh"]
     command:
       - start-dev
       - --import-realm
@@ -74,6 +71,11 @@ services:
       - ./themes/my-custom-theme:/opt/keycloak/themes/my-custom-theme
       # Mount realm configuration
       - ./realm-export.json:/opt/keycloak/data/import/realm-export.json
+      # Mount reCAPTCHA keys from vault
+      - ./vault/secret/recaptcha-site-key:/opt/keycloak/secrets/recaptcha-site-key:ro
+      - ./vault/secret/recaptcha-secret-key:/opt/keycloak/secrets/recaptcha-secret-key:ro
+      # Mount startup script that reads from vault files
+      - ./scripts/keycloak-startup.sh:/opt/keycloak/bin/keycloak-startup.sh:ro
       # Persist Keycloak data
       - keycloak_data:/opt/keycloak/data
     ports:
